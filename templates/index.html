@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,21 +13,27 @@
 
         <script defer>
             setInterval(()=>{
-                fetch('/value1').then((res)=>{
+                fetch('/gvp1slots').then((res)=>{
                 let x = res.json().then(data => {
-                        const jsonDataDisplayElement = document.getElementById('slots1');
-                        jsonDataDisplayElement.innerHTML = JSON.stringify(data.value, null, 2);
+                        const jsonDataDisplayElement1 = document.getElementById('slots1');
+                        
+                        jsonDataDisplayElement1.innerHTML = JSON.stringify(data.slots, null, 2);
+                        document.getElementById('names1').textContent = data.slotname;
                     })
             }) 
             },1000)
+        
+
             setInterval(()=>{
-                fetch('/value2').then((res)=>{
+                fetch('/gvp2slots').then((res)=>{
                 let x = res.json().then(data => {
-                        const jsonDataDisplayElement = document.getElementById('slots2');
-                        jsonDataDisplayElement.innerHTML = JSON.stringify(data.value, null, 2);
+                        const jsonDataDisplayElement1 = document.getElementById('slots2');
+                        jsonDataDisplayElement1.innerHTML = JSON.stringify(data.slots, null, 2);
+                        document.getElementById('names2').textContent = data.slotname;
                     })
             }) 
             },1000)
+            
             
         </script>
 </head>
@@ -194,8 +201,7 @@ a {
 
 .levelHighlight{
     text-align: center;
-    font-size: 30px;
-    color: #000;    
+    font-size: 30px;   
     background-color: #0099ff;
     width: 100%;
     height: 100%;
@@ -258,7 +264,22 @@ a {
     margin-top: -5px;
     position: relative;
 }
+.list-container{
+    width: 20vw;
+    height: 60vh;
+    background-color:#0099ff;
+    display: flex;
+    flex-direction: column;
+    border-color: white;
+    border-width:10px;
+    border-radius: 10px;
+    border-style: double;
 
+    
+}
+#names{
+    font-size: large;
+}
 .img1 {
     width: 100%;
     height: 46%;
@@ -385,9 +406,25 @@ margin-top:20%;
     
                 </div >
                 <div class="imgContainer">
-                    <img id="image1" src="{{ url_for('video_feed1') }}" class="img1">
-                    <img id="image1" src="{{ url_for('video_feed2') }}" class="img1">
+                    <img id="image1" src="{{ url_for('gvp1video') }}" class="img1">
+                    <img id="image1" src="{{ url_for('gvp2video') }}" class="img1">
                 
+                </div>
+                <div class="list-container">
+                    
+                    <h1 style="color: #fff;font-family: monospace;">Ground Floor</h1>
+                    <br>
+                    <div style="background-color: #000;height: 80px;border-radius: 10px;padding-top: 10px;">
+                        
+                        <p id="names1" style="color:red;font-size: large;font-size: large;font-weight: bold;font-family: sans-serif;">Hi</p>
+                    </div>
+                    <br><br><br>
+                    <h1 style="color: #fff;font-family: monospace;">First Floor</h1>
+                    <br>
+                    <div style="background-color: #000;height: 80px;border-radius: 10px;padding-top: 10px;">
+                        <p id="names2" style="color:red;font-size: large;font-size: large;font-weight: bold;font-family: sans-serif;">Bro</p>
+                    </div>
+                    
                 </div>
             </div>
             <div id="footer">

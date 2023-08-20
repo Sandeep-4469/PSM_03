@@ -2,14 +2,15 @@
 import cv2
 import pickle
 import numpy as np
-x = 0
-y = 0
-def updatedValues1():
-    global x
-    return x
-def updatedValues2():
-    global y
-    return y
+from collections import defaultdict
+d = {"gvp11.mp4":[0,""],"CMR_bike.mp4":[0,""],"gvp2.mp4":[0,""],"recording.mp4":[0,""]}
+def get_list_data(rec):
+    global d
+    return d[rec][1]
+def updatedValues(rec):
+    global d
+    return d[rec][0]
+
 def management(video_file,pickle_file,threshold):
     cap = cv2.VideoCapture(video_file)
     if (cap.isOpened()== False):
@@ -47,7 +48,7 @@ def check(Fimg,img,poslist,threshold):
         if count <threshold:
             color = (0, 255, 0)
             Empty+= 1
-            vac.append(i//4)
+            vac.append(str(i//4 +1))
         else:
             color = (0, 0, 255)
         pts = np.array([list(poslist[i-3]),list(poslist[i-2]),list(poslist[i-1]),list(poslist[i])],np.int32)
@@ -64,11 +65,10 @@ def check(Fimg,img,poslist,threshold):
     #                fontScale, color, thickness, cv2.LINE_AA)
     # cv2.putText(img, f'{vac}', (30, 1000), font, 
     #                fontScale, color, thickness, cv2.LINE_AA)
-    return Empty
+    return Empty,vac
 
 def gen_frames(cap,poslist,threshold,file):
-    global x
-    global y
+    global d
     while(cap.isOpened()):
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):
             cap.set(cv2.CAP_PROP_POS_FRAMES,0)
@@ -82,11 +82,10 @@ def gen_frames(cap,poslist,threshold,file):
 
         dilated_img = cv2.dilate(median_img, kernel , iterations=1)
             
-        Empty = check(dilated_img,img,poslist,threshold)
-        if file=='recording.mp4':
-            x = Empty
-        elif file=='CMR_bike.mp4':
-            y = Empty
+        Empty,l = check(dilated_img,img,poslist,threshold)
+        d[file][0] = Empty
+        d[file][1] = l 
+            
 
         ret, buffer = cv2.imencode('.jpg', img)
         frame = buffer.tobytes()
