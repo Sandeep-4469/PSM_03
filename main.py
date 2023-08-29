@@ -4,10 +4,10 @@ import time
 import pickle
 import numpy as np
 from collections import defaultdict
-d = {"gvp11.mp4":[0,[]],"CMR_bike.mp4":[0,[]],"gvp2.mp4":[0,[]],"recording.mp4":[0,[]],"palm1.mp4":[0,[]]}
+d = {"gvp11.mp4":[1,["1"]],"CMR_bike.mp4":[1,["1"]],"gvp2.mp4":[1,["1"]],"recording.mp4":[1,["1"]],"palm1.mp4":[1,["1"]]}
 def get_list_data(rec):
     global d
-    return list(d[rec][1])
+    return d[rec][1]
 def updatedValues(rec):
     global d
     return d[rec][0]
